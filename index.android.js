@@ -4,12 +4,14 @@
  * @flow
  */
 
+
 import React, { Component } from 'react';
 import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  ToastAndroid
 } from 'react-native';
 
 import Calendar from './components/Calendar';
@@ -34,10 +36,10 @@ class MyCalendar extends Component {
         <Calendar
           ref='myCalendar'
           date={_this.state.date} //必要值
-          onDateChange={(date) => console.warn('selected', date) }
+          onDateChange={(date) => ToastAndroid.show(date, ToastAndroid.SHORT) }
           prevTitle='prev'//默认为Prev
           nextTitle='next'//默认为Next
-          busyDay={busyDays} 
+          busyDay={busyDays}
           />
       </View>
     );

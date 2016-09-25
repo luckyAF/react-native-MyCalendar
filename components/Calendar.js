@@ -6,11 +6,8 @@ import {
     Text,
     View,
     Dimensions,
-    ScrollView,
     ViewPagerAndroid,
     TouchableOpacity,
-    TouchableHighlight,
-    BackAndroid,
     PixelRatio
 } from 'react-native';
 let {height, width} = Dimensions.get('window');
