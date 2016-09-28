@@ -25,6 +25,7 @@ export default class Calendar extends Component {
     };
 
     nextMonth() {
+        
         let newYear = this.state.year
         let newMonth = this.state.month;
         let newDate = this.state.day;
@@ -46,6 +47,7 @@ export default class Calendar extends Component {
     }
 
     prevMonth() {
+        
         let newYear = this.state.year;
         let newMonth = this.state.month;
         let newDate = this.state.day;
@@ -55,6 +57,7 @@ export default class Calendar extends Component {
         } else {
             newMonth = this.state.month - 1;
         }
+        
         this.setState({
             day: newDate,
             month: newMonth,
@@ -63,6 +66,8 @@ export default class Calendar extends Component {
         if (this.props.onDateChange) {
             this.props.onDateChange(new Date(newYear, newMonth, newDate));
         }
+
+       
     }
 
     myScroll(event) {
@@ -207,22 +212,30 @@ class DateBoard extends React.Component {
         for (let i = 0; i < firstDay; i++) {
             arr.push(<View key={-i} style={styles.dateBox}></View>)
         }
-      
-        
+        var numHeight = parseInt((arr.length + monthDay[myMonth] - 1) / 7) + 2;
+        var cellWidth = (width * 2 / 3 - 6)/ numHeight;
+        var cirWidth = width * 3 / 5 / numHeight;
         for (var i = 1; i < monthDay[myMonth] + 1; i++) {
             if (this.props.day == i) {
                 arr.push(
-                    <TouchableOpacity onPress={this.props.selectDay.bind(this, i) } key={i} style={styles.dateBox}>
-                        <View style={[styles.selected, { backgroundColor: '#35c0c5' }]}>
-                            <Text style={[styles.dateText, { color: '#fff', fontWeight: 'bold' }]}>{i}</Text>
+                    <TouchableOpacity
+                        onPress={this.props.selectDay.bind(this, i) }
+                        key={i} style={[styles.dateBox, {height:cellWidth}]}>
+                        <View style={[styles.selected,
+                            { backgroundColor: '#35c0c5' ,height:cirWidth,width:cirWidth}]}>
+                            <Text style={[styles.dateText,
+                                { color: '#fff', fontWeight: 'bold' }]}>{i}</Text>
                             {this._ifBusy(myYear,myMonth,i)? <View style={styles.point}></View> : null}
                         </View>
                     </TouchableOpacity>
                 )
             } else {
                 arr.push(
-                    <TouchableOpacity onPress={this.props.selectDay.bind(this, i) } key={i} style={styles.dateBox}>
-                        <View style={styles.selected}>
+                    <TouchableOpacity
+                        onPress={this.props.selectDay.bind(this, i) }
+                        key={i} style={[styles.dateBox, {height:cellWidth}]}>
+                        <View style={[styles.selected,
+                            { height:cirWidth,width:cirWidth }]}>
                             <Text style={styles.dateText}>{i}</Text>
                             {this._ifBusy(myYear,myMonth,i)? <View style={styles.point}></View> : null}
                         </View>
@@ -270,10 +283,6 @@ const styles = StyleSheet.create({
     dayTitle: {
         flex: 1,
     },
-    dayTimeTouch: {
-        height: 50,
-        justifyContent: 'center'
-    },
     t1: {
         fontSize: 15,
         textAlign: 'center',
@@ -302,23 +311,21 @@ const styles = StyleSheet.create({
     },
 
     dateBoard: {
-        width: width,
+        //flex:1,
         flexDirection: 'row',
         flexWrap: 'wrap',
         backgroundColor: 'rgb(250, 250, 250)',
-        borderBottomWidth: 1 / PixelRatio.get(),
-        borderBottomColor: '#ccc'
     },
     list: {
         flexDirection: 'row',
         flexWrap: 'wrap',
-        flex: 1
+        flex: 1,
+        backgroundColor: 'rgb(250, 250, 250)',
     },
     dateBox: {
         justifyContent: 'center',
         alignItems: 'center',
         width: width / 7,
-        height: width / 9,
     },
     dateText: {
         fontSize: 14,
