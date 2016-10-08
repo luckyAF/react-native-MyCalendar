@@ -24,8 +24,7 @@ export default class Calendar extends Component {
         }
     };
 
-    nextMonth() {
-        
+    nextMonth() {  
         let newYear = this.state.year
         let newMonth = this.state.month;
         let newDate = this.state.day;
@@ -35,6 +34,10 @@ export default class Calendar extends Component {
         } else {
             newMonth = this.state.month + 1;
         }
+        var thisMonth = new Date(newYear, newMonth + 1, 0);
+        if (thisMonth.getDate() < newDate) { 
+            newDate = thisMonth.getDate();
+        }  
         this.setState({
             day: newDate,
             month: newMonth,
@@ -47,7 +50,6 @@ export default class Calendar extends Component {
     }
 
     prevMonth() {
-        
         let newYear = this.state.year;
         let newMonth = this.state.month;
         let newDate = this.state.day;
@@ -57,7 +59,10 @@ export default class Calendar extends Component {
         } else {
             newMonth = this.state.month - 1;
         }
-        
+        var thisMonth = new Date(newYear, newMonth + 1, 0);
+        if (thisMonth.getDate() < newDate) { 
+            newDate = thisMonth.getDate();
+        }  
         this.setState({
             day: newDate,
             month: newMonth,
