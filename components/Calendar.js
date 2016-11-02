@@ -8,7 +8,6 @@ import {
     Dimensions,
     ViewPagerAndroid,
     TouchableOpacity,
-    PixelRatio
 } from 'react-native';
 let {height, width} = Dimensions.get('window');
 
@@ -24,7 +23,7 @@ export default class Calendar extends Component {
         }
     };
 
-    nextMonth() {  
+    nextMonth() {
         let newYear = this.state.year
         let newMonth = this.state.month;
         let newDate = this.state.day;
@@ -35,9 +34,9 @@ export default class Calendar extends Component {
             newMonth = this.state.month + 1;
         }
         var thisMonth = new Date(newYear, newMonth + 1, 0);
-        if (thisMonth.getDate() < newDate) { 
+        if (thisMonth.getDate() < newDate) {
             newDate = thisMonth.getDate();
-        }  
+        }
         this.setState({
             day: newDate,
             month: newMonth,
@@ -60,9 +59,9 @@ export default class Calendar extends Component {
             newMonth = this.state.month - 1;
         }
         var thisMonth = new Date(newYear, newMonth + 1, 0);
-        if (thisMonth.getDate() < newDate) { 
+        if (thisMonth.getDate() < newDate) {
             newDate = thisMonth.getDate();
-        }  
+        }
         this.setState({
             day: newDate,
             month: newMonth,
@@ -72,7 +71,7 @@ export default class Calendar extends Component {
             this.props.onDateChange(new Date(newYear, newMonth, newDate));
         }
 
-       
+
     }
 
     myScroll(event) {
@@ -111,19 +110,19 @@ export default class Calendar extends Component {
         return (
             <View style={styles.container}>
                 <View style={styles.head}>
-                    <TouchableOpacity onPress={() => this.prevMonth() } style={styles.prevNextTouch}>
-                        <Text style={styles.prevNext}>{this.props.prevTitle?this.props.prevTitle : 'Prev'}</Text>
+                    <TouchableOpacity onPress={() => this.prevMonth()} style={styles.prevNextTouch}>
+                        <Text style={styles.prevNext}>{this.props.prevTitle ? this.props.prevTitle : 'Prev'}</Text>
                     </TouchableOpacity>
                     <View style={styles.dayTitle}>
                         <Text style={styles.t1}>
                             {this.state.year + '年' + (this.state.month + 1) + '月' + (this.state.day) + '日'}
                         </Text>
                     </View>
-                    <TouchableOpacity onPress={() => this.nextMonth() } style={styles.prevNextTouch}>
-                        <Text style={styles.prevNext}>{this.props.nextTitle?this.props.nextTitle : 'Next'}</Text>
+                    <TouchableOpacity onPress={() => this.nextMonth()} style={styles.prevNextTouch}>
+                        <Text style={styles.prevNext}>{this.props.nextTitle ? this.props.nextTitle : 'Next'}</Text>
                     </TouchableOpacity>
                 </View>
-                <View style={{ height: 0.5, backgroundColor: '#51c6d0', }}/>
+                <View style={{ height: 0.5, backgroundColor: '#51c6d0', }} />
                 <View style={styles.dateTitle}>
                     <Text style={styles.dateTitleText}>日</Text>
                     <Text style={styles.dateTitleText}>一</Text>
@@ -134,16 +133,16 @@ export default class Calendar extends Component {
                     <Text style={styles.dateTitleText}>六</Text>
                 </View>
                 <ViewPagerAndroid
-                    style={styles.list}  
+                    style={styles.list}
                     initialPage={1}
-                    onPageSelected={event => this.myScroll(event) } ref="trueViewPager">
+                    onPageSelected={event => this.myScroll(event)} ref="trueViewPager">
                     <View>
                         <DateBoard
                             year={this.state.year}
                             month={this.state.month - 1}
                             day={this.state.day}
-                            selectDay={this.selectDay.bind(this) }
-                            busyDay={this.props.busyDay}/>
+                            selectDay={this.selectDay.bind(this)}
+                            busyDay={this.props.busyDay} />
 
                     </View>
                     <View>
@@ -151,8 +150,8 @@ export default class Calendar extends Component {
                             year={this.state.year}
                             month={this.state.month}
                             day={this.state.day}
-                            selectDay={this.selectDay.bind(this) }
-                            busyDay={this.props.busyDay}/>
+                            selectDay={this.selectDay.bind(this)}
+                            busyDay={this.props.busyDay} />
 
                     </View>
                     <View>
@@ -160,8 +159,8 @@ export default class Calendar extends Component {
                             year={this.state.year}
                             month={this.state.month + 1}
                             day={this.state.day}
-                            selectDay={this.selectDay.bind(this) }
-                            busyDay={this.props.busyDay}/>
+                            selectDay={this.selectDay.bind(this)}
+                            busyDay={this.props.busyDay} />
 
                     </View>
                 </ViewPagerAndroid>
@@ -214,50 +213,49 @@ class DateBoard extends React.Component {
         let firstDay = fd.getDay();//该月第一天星期几
         let monthDay = [31, this.getFebDays(), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
         let arr = [];
-        for (let i = 0; i < firstDay; i++) {
-            arr.push(<View key={-i} style={styles.dateBox}></View>)
-        }
-        var numHeight = parseInt((arr.length + monthDay[myMonth] - 1) / 7) + 2;
-        var cellWidth = (width * 2 / 3 - 6)/ numHeight;
+        var numHeight = parseInt((firstDay + monthDay[myMonth] - 1) / 7) + 2;
+        var cellWidth = (width * 2 / 3 - 6) / numHeight;
         var cirWidth = width * 3 / 5 / numHeight;
+        for (let i = 0; i < firstDay; i++) {
+            arr.push(<View key={-i} style={[styles.dateBox, { height: cellWidth}]}></View>)
+        }
         for (var i = 1; i < monthDay[myMonth] + 1; i++) {
             if (this.props.day == i) {
                 arr.push(
                     <TouchableOpacity
-                        onPress={this.props.selectDay.bind(this, i) }
-                        key={i} style={[styles.dateBox, {height:cellWidth}]}>
+                        onPress={this.props.selectDay.bind(this, i)}
+                        key={i} style={[styles.dateBox, { height: cellWidth }]}>
                         <View style={[styles.selected,
-                            { backgroundColor: '#35c0c5' ,height:cirWidth,width:cirWidth}]}>
+                        { backgroundColor: '#35c0c5', height: cirWidth, width: cirWidth }]}>
                             <Text style={[styles.dateText,
-                                { color: '#fff', fontWeight: 'bold' }]}>{i}</Text>
-                            {this._ifBusy(myYear,myMonth,i)? <View style={styles.point}></View> : null}
+                            { color: '#fff', fontWeight: 'bold' }]}>{i}</Text>
+                            {this._ifBusy(myYear, myMonth, i) ? <View style={styles.point}></View> : null}
                         </View>
                     </TouchableOpacity>
                 )
             } else {
                 arr.push(
                     <TouchableOpacity
-                        onPress={this.props.selectDay.bind(this, i) }
-                        key={i} style={[styles.dateBox, {height:cellWidth}]}>
+                        onPress={this.props.selectDay.bind(this, i)}
+                        key={i} style={[styles.dateBox, { height: cellWidth }]}>
                         <View style={[styles.selected,
-                            { height:cirWidth,width:cirWidth }]}>
+                        { height: cirWidth, width: cirWidth }]}>
                             <Text style={styles.dateText}>{i}</Text>
-                            {this._ifBusy(myYear,myMonth,i)? <View style={styles.point}></View> : null}
+                            {this._ifBusy(myYear, myMonth, i) ? <View style={styles.point}></View> : null}
                         </View>
                     </TouchableOpacity>
                 )
-
             }
         }
         return arr;
     };
-    _ifBusy(year,month,day) { 
-        for (var i = 0; i < this.props.busyDay.length; i++) { 
-            if (this.props.busyDay[i].getFullYear() == year
-                && this.props.busyDay[i].getMonth() == month
-                && this.props.busyDay[i].getDate() == day) { 
+    _ifBusy(year, month, day) {
+        for (let j = 0; j < this.props.busyDay.length; j++) {
+            if (this.props.busyDay[j].getFullYear() == year
+                && this.props.busyDay[j].getMonth() == month
+                && this.props.busyDay[j].getDate() == day) {
                 return true;
-                }
+            }
         }
         return false;
     }
@@ -265,7 +263,7 @@ class DateBoard extends React.Component {
     render() {
         return (
             <View style={styles.dateBoard}>
-                {this.renderDate() }
+                {this.renderDate()}
             </View>
         )
     }
@@ -348,7 +346,7 @@ const styles = StyleSheet.create({
 
     point: {
         position: 'absolute',
-        left: width / 20 -3,
+        left: width / 20 - 3,
         bottom: 3,
         width: 5,
         height: 5,
@@ -356,3 +354,4 @@ const styles = StyleSheet.create({
         backgroundColor: '#f00'
     }
 });
+
