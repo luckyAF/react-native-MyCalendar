@@ -14,6 +14,7 @@ import {
   ToastAndroid
 } from 'react-native';
 
+var dateFormat = require('dateformat');
 import Calendar from './components/Calendar';
 var busyDays = [
   new Date(2016, 8, 8),//2016年9月8号
@@ -36,7 +37,7 @@ class MyCalendar extends Component {
         <Calendar
           ref='myCalendar'
           date={_this.state.date} //必要值
-          onDateChange={(date) => ToastAndroid.show(date, ToastAndroid.SHORT) }
+          onDateChange={(date) => ToastAndroid.show(dateFormat(date, 'yyyy-mm-dd'), ToastAndroid.SHORT) }
           prevTitle='prev'//默认为Prev
           nextTitle='next'//默认为Next
           busyDay={busyDays}
